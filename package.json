@@ -1,0 +1,18 @@
+{
+  "name": "meinders-shortener-test",
+  "version": "0.0.0",
+  "description": "",
+  "main": "web.js",
+  "engines": {
+    "node": ">=0.10.12"
+  },
+  "dependencies": {
+    "express": "3.x"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "author": ""
+}
