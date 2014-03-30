@@ -2,7 +2,7 @@ var express = require('express');
 var fs = require('fs');
 
 
-//var redis = require("redis-url").connect(process.env.MYREDIS_URL);
+var redis = require("redis-url").connect(process.env.REDISTOGO_URL);
 
 var app = express();
 
@@ -24,7 +24,7 @@ app.get('*', function(request, response, next) {
   response.redirect(302,'http://www.meinders.com/test2.html');
   response.end();
   console.log('redirecting...');
-    next();
+    //next();
 });
 
 
