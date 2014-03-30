@@ -39,9 +39,25 @@ app.get('/shortenaction', function(request, response, next) {
   var path = url_parts.query['path'];
   if (path != undefined && path != null && path != '')
   {
-    redis.set('/' + url_parts.query['path'],url_parts.query['url'],redis.print);
-    response.redirect('success?path=' + url_parts.query['path']);
-    response.end();
+
+     redis.get(path, 
+  	   function(err,reply){ 
+         console.log('reply: ' + reply);
+		 if (reply == null)
+		 {
+		   redis.set('/' + url_parts.query['path'],url_parts.query['url'],redis.print);
+		   response.redirect('success?path=' + url_parts.query['path']);
+		   response.end();
+		 }
+		 else
+		 {
+           response.writeHead(500);
+           response.end(path + 'already used');
+		 }
+       }
+     );
+
+
   }
   else
   {
