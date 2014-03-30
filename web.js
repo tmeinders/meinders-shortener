@@ -40,7 +40,7 @@ app.get('/shortenaction', function(request, response, next) {
   if (path != undefined && path != null && path != '')
   {
 
-     redis.get(path, 
+     redis.get('/' + path, 
   	   function(err,reply){ 
          console.log('reply: ' + reply);
 		 if (reply == null)
@@ -52,7 +52,7 @@ app.get('/shortenaction', function(request, response, next) {
 		 else
 		 {
            response.writeHead(500);
-           response.end(path + 'already used');
+           response.end(path + ' already used');
 		 }
        }
      );
