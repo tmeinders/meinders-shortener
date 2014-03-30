@@ -2,12 +2,12 @@ var express = require('express');
 var fs = require('fs');
 
 
-var redis = require("redis-url").connect(process.env.MYREDIS_URL);
+//var redis = require("redis-url").connect(process.env.MYREDIS_URL);
 
 var app = express();
 
-app.get('/', function(request, response) {
-  fs.readFile('./index.html', function(error, content) {
+app.get('/shorten', function(request, response) {
+  fs.readFile('./shorten.html', function(error, content) {
     if (error) {
       response.writeHead(500);
       response.end();
