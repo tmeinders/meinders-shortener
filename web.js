@@ -36,16 +36,25 @@ app.get('/success', function(request, response) {
 app.get('/shortenaction', function(request, response, next) {
   var url_parts = url.parse(request.url, true);
   console.log('shortenaction...');
-  redis.set('/' + url_parts.query['path'],url_parts.query['url'],redis.print);
-  response.redirect('success?path=' + url_parts.query['path']);
-  response.end();
+  var path = url_parts.query['path'];
+  if (path != undefined && path != null && path != '')
+  {
+    redis.set('/' + url_parts.query['path'],url_parts.query['url'],redis.print);
+    response.redirect('success?path=' + url_parts.query['path']);
+    response.end();
+  }
+  else
+  {
+    response.writeHead(500);
+    response.end();
+  }
 });
 
 
 app.get('*', function(request, response, next) {
   var path = url.parse(request.url).pathname; 
   console.log('path: ' + path);
-  if (path != undefined)
+  if (path != undefined && path != null && path != '')
   {
      redis.get(path, 
   	   function(err,reply){ 
