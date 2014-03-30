@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "express": "3.x",
-    "redis-url": "x.x"
+    "redis": "x.x"
   },
   "devDependencies": {},
   "scripts": {
