@@ -26,12 +26,18 @@ app.get('/shorten', function(request, response) {
   });
 });
 
+app.get('/success', function(request, response) {
+  var url_parts = url.parse(request.url, true);
+  var content = '<a href="http://meinde.rs/' + url_parts.query['path'] + '">Success</a>';
+  response.writeHead(200, { 'Content-Type': 'text/html' });
+  response.end(content, 'utf-8');
+});
 
 app.get('/shortenaction', function(request, response, next) {
   var url_parts = url.parse(request.url, true);
   console.log('shortenaction...');
-  redis.set(url_parts.query['path'],url_parts.query['url'],redis.print);
-  response.send("hi");
+  redis.set('/' + url_parts.query['path'],url_parts.query['url'],redis.print);
+  response.redirect('success?path=' + url_parts.query['path']);
   response.end();
 });
 
@@ -39,13 +45,30 @@ app.get('/shortenaction', function(request, response, next) {
 app.get('*', function(request, response, next) {
   var path = url.parse(request.url).pathname; 
   console.log('path: ' + path);
-  redis.get(path, 
-  	function(err,reply){ 
-	  response.redirect(reply);
-	  response.end();
-      console.log('redirecting...');
-    }
-  );
+  if (path != undefined)
+  {
+     redis.get(path, 
+  	   function(err,reply){ 
+         console.log('reply: ' + reply);
+		 if (reply != null)
+		 {
+	       response.redirect(reply);
+	       response.end();
+           console.log('redirecting...');
+		 }
+		 else
+		 {
+           response.writeHead(500);
+           response.end();
+		 }
+       }
+     );
+  }
+  else
+  {
+    response.writeHead(500);
+    response.end();
+  }
 });
 
 
